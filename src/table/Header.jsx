@@ -1,19 +1,8 @@
 import React, { Component } from "react"
 import styled from 'styled-components'
 
+import { RowStyled } from './RowStyled.jsx'
 import { Cell } from './Cell.jsx'
-
-const getColumnStyle = widths => {
-  return widths.map(item => `${item}fr`).join(" ")
-}
-
-const Header = styled.div`
-  display: grid;
-  ${props => `
-    grid-template-columns: ${getColumnStyle(props.widths)};
-  `}
-  grid-template-rows: 1fr;
-`
 
 const HeaderCell = styled(Cell)`
   font-weight: bold;
@@ -34,10 +23,14 @@ class Header extends Component {
   }
 
   render() {
+    const { columnSequence, columnWidths } = this.props
+
+    const widths = columnSequence.map(item => columnWidths[item])
+
     return (
-      <Header>
-        {this.props.columnSequence.map(this.renderCell)}
-      </Header>
+      <RowStyled widths={widths}>
+        {columnSequence.map(this.renderCell)}
+      </RowStyled>
     )
   }
 }
